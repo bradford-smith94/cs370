@@ -4,7 +4,7 @@
 ################################################################################
 
 PRG=fortytwo
-AUTHOR=Bradford Smith
+AUTHOR=bsmith8
 PROJECT=spoj_challenge1
 SRC=fortytwo.cpp
 OBJ=$(SRC:.cpp=.o)
