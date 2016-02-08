@@ -1,3 +1,9 @@
+/* Aiden Racaniello, Bradford Smith, and Nick Zubrycki
+ * CS 370 Assignment1: ProjectEuler 13 LargeSum.java
+ * 02/07/2016
+ * "We pledge our honor that we have abided by the Stevens Honor System."
+ */
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -86,12 +92,23 @@ public class LargeSum {
 
     }
 
+    public static String bigIntToString(ArrayList<Character> list) {
+       String result = "";
+       int i;
+
+       for (i = 0; i < list.size(); i++) {
+           result += list.get(i);
+       }
+
+       return result;
+    }
+
     public static void main(String[] args) {
 
         FileInputStream file;
 
         try{
-            file = new FileInputStream(new File("C:/Users/Class2017/workspace/ProjectEuler/src/euler/input"));
+            file = new FileInputStream(new File("./input.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("File not found");
@@ -120,8 +137,8 @@ public class LargeSum {
                 }
             }
             addBigInts(total, temp);
-            System.out.println("Full sum: " + total.toString());
-            System.out.println("First 10 digits: " + total.toString());
+            System.out.println("Full sum: " + bigIntToString(total));
+            System.out.println("First 10 digits: " + bigIntToString(total));
 
         }
         catch(IOException e){
