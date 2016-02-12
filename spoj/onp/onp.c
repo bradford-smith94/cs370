@@ -43,7 +43,7 @@ int precedence(char c1, char c2)
         return 0;
     else
     {
-        for (i = 0; i < 4; i++)
+        for (i = 0; i < 5; i++)
         {
             if (priority[i] == c1 && priority[i] != c2)
                 return -1;
@@ -73,7 +73,6 @@ int main()
 
     /* read in number of expressions */
     scanf("%d", &numExpr);
-    /* printf("[DEBUG]: %d\n", numExpr); */
 
     while (numExpr-- > 0)
     {
@@ -124,6 +123,9 @@ int main()
             /* pop the operator off the stack and add it to the output queue */
             output[++outCount] = ghettoStack[gs_top--];
         }
+
+        /* make this a proper string */
+        output[++outCount] = '\0';
 
         /* print the output queue */
         printf("%s\n", output);

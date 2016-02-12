@@ -1,7 +1,7 @@
 # Aidan Racaniello, Bradford Smith, Nicholas Zubrycki
 # Makefile for CS 370 Assignment2
 # 02/12/2016
-# "I pledge my honor that I have abided by the Stevens Honor System."
+# "We pledge our honor that we have abided by the Stevens Honor System."
 ################################################################################
 
 PRG=onp
@@ -35,6 +35,9 @@ fclean: clean
 	$(RM) $(PRG)
 
 re: fclean all
+
+test: re
+	./$(PRG) < input.txt
 
 submit: fclean
 	zip $(PROJECT).zip ./*
