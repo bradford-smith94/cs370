@@ -1,7 +1,7 @@
 /* Aidan Racaniello, Bradford Smith, Nicholas Zubrycki
  * CS 370 Assignment 2: SPOJ ONP onp.c
  * 02/12/2016
- * "I pledge my honor that I have abided by the Stevens Honor System."
+ * "We pledge our honor that we have abided by the Stevens Honor System."
  */
 
 #include <stdio.h>
@@ -51,6 +51,8 @@ int precedence(char c1, char c2)
                 return 1;
         }
     }
+
+    return -999; //if this happens there's a problem
 }
 
 /* pre: none
