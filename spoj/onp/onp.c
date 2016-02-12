@@ -7,9 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* pre:
- * post:
- * return:
+/* pre: takes in a char c
+ * post: determines is c is an operand
+ * return: 1 if c is a letter a-zA-Z, else 0
  */
 int is_operand(char c)
 {
@@ -18,9 +18,9 @@ int is_operand(char c)
     return 0;
 }
 
-/* pre:
- * post:
- * return:
+/* pre: takes in a char c
+ * post: determines if c is an operator
+ * return: 1 if c is +,-,*,/,^, else 0
  */
 int is_operator(char c)
 {
@@ -29,9 +29,10 @@ int is_operator(char c)
     return 0;
 }
 
-/* pre:
- * post:
- * return: 0 if equal, -1 if c1 comes first 1 if c2 comes first
+/* pre: takes in a char c1 and char c2
+ * post: determines the precedence between c1 and c2
+ * return: 0 if equal, -1 if c1 comes first (c1 has greater precedence),
+ *      and 1 if c2 comes first (c2 has greater precedence)
  */
 int precedence(char c1, char c2)
 {
@@ -52,6 +53,11 @@ int precedence(char c1, char c2)
     }
 }
 
+/* pre: none
+ * post: reads in a number of expressions and prints them out in reverse polish
+ *      notation
+ * return: 0, always
+ */
 int main()
 {
     int numExpr; /* number of expressions to read */
@@ -67,9 +73,9 @@ int main()
     scanf("%d", &numExpr);
     /* printf("[DEBUG]: %d\n", numExpr); */
 
-    while (numExpr--)
+    while (numExpr-- > 0)
     {
-        scanf("%s", &expr);
+        scanf("%s", (char*)&expr);
         for (i = 0; expr[i] != '\0'; i++) /* while there are tokens to be read */
         { /* read a token */
             if (is_operand(expr[i]))
