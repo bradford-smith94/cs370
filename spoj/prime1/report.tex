@@ -1,0 +1,51 @@
+% Aidan Racaniello and Bradford Smith
+% report.tex
+% 02/21/2016
+% "We pledge our honor that we have abided by the Stevens Honor System."
+%===============
+
+% global document styles =======================================================
+\documentclass[11pt, letterpaper]{article}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tgbonum}
+\usepackage{textcomp}
+\pagestyle{empty}
+\setlength{\tabcolsep}{0em}
+
+% simple inline code formatting (use typewriter font)
+\newcommand{\code}[1]{\texttt{#1}}
+
+
+% document begins here =========================================================
+\begin{document}
+\noindent{Aidan Racaniello and Bradford Smith}
+
+\noindent{CS 370 Assignment 3 SPOJ Prime1 report.pdf}
+
+\noindent{\today}
+
+\noindent{\textit{``We pledge our honor that we have abided by the Stevens Honor System.}}
+
+\bigskip
+\noindent{\large\bfseries Type of Error:}
+
+On SPOJ we receive the error ``Time Limit Exceeded'' and we also noticed that a very large amount of memory is being used.
+
+\bigskip
+\noindent{\large\bfseries What we tried to accomplish:}
+
+While coding the algorithm we tried to reduce the memory usage of the array objects by adding \code{delete[]} statements to free memory. We also tried to account for all edge cases to avoid infinite loops. So we checked for negative and zero inputs even though the SPOJ problem appears to tell us that we don't need to.
+
+\bigskip
+\noindent{\large\bfseries Local Test cases:}
+
+We tried all the cases listed in \code{testcases.txt} as well as running from \code{1} to \code{1000000000} and providing initial inputs of \code{0} and \code{-1}. We noticed nothing wrong with the results of the local test cases; however running from \code{1} to \code{1000000000} did take a long time and use \textit{a lot} of memory, but the execution time seemed to be mostly printing, and changing to a string internally didn't help.
+
+\bigskip
+\noindent{\large\bfseries How we went about debugging:}
+
+There are included debugging print statements throughout the code which are wrapped in \code{\#ifdef DEBUG} statements these can be activated using the \code{debug} Makefile target or by specifying \code{-DDEBUG} at compile time. These debug statements are also activated when the \code{test} Makefile target is used. Using these statements we searched for inputs that would case the program to hang or infinitely loop and tried to remove all those cases.
+\end{document}
+
