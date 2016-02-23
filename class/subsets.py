@@ -54,3 +54,43 @@ def all_subsets(target, lst):
                 deduped.append(result[1][i])
             return (True, deduped)
         return result
+
+# return whether or not a target sum is possible
+def subset_sum(target, lst):
+    s = 0
+    for i in lst:
+        s += lst[i]
+    table = [False]*s
+    table[0] = True
+
+    for i in range(0, len(lst)):
+        for j in range(len(table) - 1, -1, -1):
+            if table[j]: #or table[j - lst[i]]:
+                table[j] = True
+            elif j - lst[i] >= 0 and table[j - lst[i]]:
+                table[j] = True
+
+    return table[target]
+
+# return the smallest value that cannot be achieved by a subset
+# URI online judge #1690
+def uri_subset_sum(lst):
+    s = 0
+    for i in range(0, len(lst)):
+        s += lst[i]
+    table = [False]*s
+    table[0] = True
+
+    for i in range(0, len(lst)):
+        for j in range(len(table) - 1, -1, -1):
+            if table[j]: #or table[j - lst[i]]:
+                table[j] = True
+            elif j - lst[i] >= 0 and table[j - lst[i]]:
+                table[j] = True
+
+    for i in range(0, len(table)):
+        if not table[i]:
+            return i
+    return len(table)
+
+
