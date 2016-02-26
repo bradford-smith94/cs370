@@ -8,32 +8,32 @@ import java.util.*;
 
 public class ReciprocalCycles
 {
-    public static String printDecimal(ArrayList<Integer> list, boolean repeats, int index)
+    public static String printDecimal(String digits, boolean repeats, int index)
     {
         String result = "";
         int i;
 
-        if (list.isEmpty())
+        if (digits.isEmpty())
         {
             result += 1;
         }
         else if (repeats)
         {
             result += "0.";
-            for (i = 0; i < list.size(); i++)
+            for (i = 0; i < digits.length() - 1; i++)
             {
                 if (i == index)
                     result += "(";
-                result += list.get(i);
+                result += digits.charAt(i);
             }
             result += "), cycle length ";
-            result += list.size() - index;
+            result += digits.length() - 1 - index;
         }
         else
         {
             result += "0.";
-            for (i = 0; i < list.size(); i++)
-                result += list.get(i);
+            for (i = 0; i < digits.length() - 1; i++)
+                result += digits.charAt(i);
         }
 
         return result;
@@ -42,10 +42,12 @@ public class ReciprocalCycles
     public static void main(String[] args)
     {
         int remainder;
+        int digits;
+        int count;
         int tmp;
         int denominator = 1; //so the syntax checker doesn't have an aneurysm
         int repeatIndex;
-        ArrayList<Integer> list;
+        ArrayList<Integer> remList;
         boolean done;
         boolean repeats;
 
@@ -80,21 +82,23 @@ public class ReciprocalCycles
             }
         }
 
-        //find decimal result and store digits in list
-        list = new ArrayList<Integer>();
+        remList = new ArrayList<Integer>();
         done = false;
         repeats = false;
-        remainder = 0;
+        remainder = 1;
+        digits = 0;
+        count = 0;
         repeatIndex = 0;
-        tmp = 1;
+        tmp = 10;
         while(!done)
         {
-            remainder = tmp % denominator;
-            if(list.contains(remainder))
+            remainder %= denominator;
+            digits = tmp / denominator;
+            if(remList.contains(remainder))
             {
                 done = true;
                 repeats = true;
-                repeatIndex = list.indexOf(remainder);
+                repeatIndex = remList.indexOf(remainder);
             }
             else if (remainder == 0)
             {
@@ -103,12 +107,19 @@ public class ReciprocalCycles
             }
             else
             {
-                list.add(new Integer(remainder));
-                tmp = remainder * 10;
+                remList.add(new Integer(remainder));
+                count++;
+                remainder *= 10;
+                tmp *= 10;
+
             }
         }
 
-        //list now contains all the digits of repeating portion of the decimal
-        System.out.println("1/" + denominator + " = " + printDecimal(list, repeats, repeatIndex));
+        //digits now contains all the digits of repeating portion of the decimal
+        //plus the first repeating digit
+        if (count == 0)
+            System.out.println("1/" + denominator + " = " + printDecimal("", repeats, repeatIndex));
+        else
+            System.out.println("1/" + denominator + " = " + printDecimal((new Integer(digits)).toString(), repeats, repeatIndex));
     }
 }
