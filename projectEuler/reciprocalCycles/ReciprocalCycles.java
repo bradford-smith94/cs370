@@ -4,39 +4,40 @@
  * "We pledge our honor that we have abided by the Stevens Honor System."
  */
 
-import java.util.*;
+import java.util.ArrayList;
+import java.lang.StringBuilder;
 
 public class ReciprocalCycles
 {
     public static String printDecimal(String digits, boolean repeats, int index)
     {
-        String result = "";
+        StringBuilder builder = new StringBuilder();
         int i;
 
         if (digits.isEmpty())
         {
-            result += 1;
+            builder.append(1);
         }
         else if (repeats)
         {
-            result += "0.";
+            builder.append("0.");
             for (i = 0; i < digits.length() - 1; i++)
             {
                 if (i == index)
-                    result += "(";
-                result += digits.charAt(i);
+                    builder.append("(");
+                builder.append(digits.charAt(i));
             }
-            result += "), cycle length ";
-            result += digits.length() - 1 - index;
+            builder.append("), cycle length ");
+            builder.append(digits.length() - 1 - index);
         }
         else
         {
-            result += "0.";
+            builder.append("0.");
             for (i = 0; i < digits.length() - 1; i++)
-                result += digits.charAt(i);
+                builder.append(digits.charAt(i));
         }
 
-        return result;
+        return builder.toString();
     }
 
     public static void main(String[] args)
@@ -45,9 +46,9 @@ public class ReciprocalCycles
         int digits;
         int count;
         int tmp;
-        int denominator = 1; //so the syntax checker doesn't have an aneurysm
+        int denominator = 1; //initialized so the syntax checker doesn't have an aneurysm
         int repeatIndex;
-        ArrayList<Integer> remList;
+        ArrayList<Integer> list;
         boolean done;
         boolean repeats;
 
@@ -75,6 +76,7 @@ public class ReciprocalCycles
                 System.exit(-1);
             }
 
+            //make sure denominator is within the given bounds
             if (denominator < 1 || denominator > 2000)
             {
                 System.out.println("Error: Denominator must be an integer in [1, 2000]. Received '" + denominator +"'.");
@@ -82,7 +84,7 @@ public class ReciprocalCycles
             }
         }
 
-        remList = new ArrayList<Integer>();
+        list = new ArrayList<Integer>();
         done = false;
         repeats = false;
         remainder = 1;
@@ -90,15 +92,16 @@ public class ReciprocalCycles
         count = 0;
         repeatIndex = 0;
         tmp = 10;
+
         while(!done)
         {
             remainder %= denominator;
             digits = tmp / denominator;
-            if(remList.contains(remainder))
+            if(list.contains(remainder))
             {
                 done = true;
                 repeats = true;
-                repeatIndex = remList.indexOf(remainder);
+                repeatIndex = list.indexOf(remainder);
             }
             else if (remainder == 0)
             {
@@ -107,7 +110,7 @@ public class ReciprocalCycles
             }
             else
             {
-                remList.add(new Integer(remainder));
+                list.add(new Integer(remainder));
                 count++;
                 remainder *= 10;
                 tmp *= 10;
