@@ -9,48 +9,65 @@ import java.lang.StringBuilder;
 
 public class ReciprocalCycles
 {
-    public static String printDecimal(String digits, boolean repeats, int index)
+    /* pre: takes in String digits, boolean repeats and int index
+     *      digits contains the digits of the decimal number including the first
+     *      repeating digit or is empty if the number isn't a decimal
+     * post: builds a string representing the decimal number based on the
+     *      decimal digits, whether or not it repeats and the index it
+     *      starts repeating at
+     * return: a String representing the possibly repeating decimal
+     */
+    private static String printDecimal(String digits, boolean repeats, int index)
     {
         StringBuilder builder = new StringBuilder();
         int i;
 
+        //if digits is empty then the number is evenly divisible (not a decimal)
+        //for this project that means 1/1 which equals 1
         if (digits.isEmpty())
         {
             builder.append(1);
         }
-        else if (repeats)
+        else if (repeats) //else if the decimal repeats
         {
+            //start with "0."
             builder.append("0.");
             for (i = 0; i < digits.length() - 1; i++)
             {
-                if (i == index)
-                    builder.append("(");
+                if (i == index) //when you get to the index where it starts repeating
+                    builder.append("("); //add the "("
                 builder.append(digits.charAt(i));
             }
             builder.append("), cycle length ");
             builder.append(digits.length() - 1 - index);
         }
-        else
+        else //else the decimal doesn't repeat
         {
+            //start with "0."
             builder.append("0.");
             for (i = 0; i < digits.length() - 1; i++)
-                builder.append(digits.charAt(i));
+                builder.append(digits.charAt(i)); //append all digits
         }
 
         return builder.toString();
     }
 
+    /* pre: takes in String[] args command line arguments
+     *      only one argument <denominator> in [1, 2000]
+     * post:
+     */
     public static void main(String[] args)
     {
-        int remainder;
-        int digits;
-        int count;
-        int tmp;
+        //declare variables
+        int remainder; //the result of modulus
+        int digits; //the decimal digits
+        int count; //used to count how many digits we have
+        int offset; //the offset for division
         int denominator = 1; //initialized so the syntax checker doesn't have an aneurysm
-        int repeatIndex;
-        ArrayList<Integer> list;
-        boolean done;
-        boolean repeats;
+        int repeatIndex; //the index where the decimal starts repeating from
+        ArrayList<Integer> list; //a list of all the remainders
+        boolean done; //flag to know when we're done
+        boolean repeats; //flag to know if the decimal repeats
 
         //error checking
         if (args.length <= 0)
@@ -84,6 +101,7 @@ public class ReciprocalCycles
             }
         }
 
+        //initialize variables
         list = new ArrayList<Integer>();
         done = false;
         repeats = false;
@@ -91,35 +109,38 @@ public class ReciprocalCycles
         digits = 0;
         count = 0;
         repeatIndex = 0;
-        tmp = 10;
+        offset = 10;
 
+        //main loop
         while(!done)
         {
-            remainder %= denominator;
-            digits = tmp / denominator;
-            if(list.contains(remainder))
+            remainder %= denominator; //get remainder
+            digits = offset / denominator;
+            if(list.contains(remainder)) //if list contains remainder
             {
                 done = true;
                 repeats = true;
                 repeatIndex = list.indexOf(remainder);
             }
-            else if (remainder == 0)
+            else if (remainder == 0) //else if remainder is 0 (decimal terminates)
             {
                 done = true;
                 repeats = false;
             }
-            else
+            else //else we keep going
             {
-                list.add(new Integer(remainder));
-                count++;
-                remainder *= 10;
-                tmp *= 10;
+                list.add(new Integer(remainder)); //add remainder to list
+                count++; //count this digit
+                remainder *= 10; //remainder moves to the next digit
+                offset *= 10; //offset moves to the next digit
 
             }
         }
 
         //digits now contains all the digits of repeating portion of the decimal
         //plus the first repeating digit
+
+        //if we didn't count any digits, pass our helper an empty string
         if (count == 0)
             System.out.println("1/" + denominator + " = " + printDecimal("", repeats, repeatIndex));
         else
