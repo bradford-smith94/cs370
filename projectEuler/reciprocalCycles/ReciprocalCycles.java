@@ -9,7 +9,7 @@ import java.lang.StringBuilder;
 
 public class ReciprocalCycles
 {
-    /* pre: takes in String digits, int numDigits, boolean repeats and int index
+    /* pre: takes in String digits, boolean repeats and int index
      *      digits contains the digits of the decimal number including the first
      *      repeating digit or is empty if the number isn't a decimal
      * post: builds a string representing the decimal number based on the
@@ -17,71 +17,36 @@ public class ReciprocalCycles
      *      starts repeating at
      * return: a String representing the possibly repeating decimal
      */
-    private static String printDecimal(String digits, int numDigits, boolean repeats, int index)
+    private static String printDecimal(String digits, boolean repeats, int index)
     {
         StringBuilder builder = new StringBuilder();
         int i;
-        int j;
 
         //if digits is empty then the number is evenly divisible (not a decimal)
         //for this project that means 1/1 which equals 1
-        if (numDigits == 0)
+        if (digits.isEmpty())
         {
             builder.append(1);
         }
-        else if (numDigits > (digits.length() - 1)) //else if there are some leading zeros
+        else if (repeats) //else if the decimal repeats
         {
             //start with "0."
             builder.append("0.");
-
-            if (repeats)
+            for (i = 0; i < digits.length() - 1; i++)
             {
-                for (i = 0; i < (numDigits - (digits.length() - 1)); i++)
-                {
-                    if (i == index) //when you get to the index where it starts repeating
-                        builder.append("("); //add the "("
-                    builder.append(0);
-                }
-                j = i;
-                for (i = 0; i + j < numDigits; i++)
-                {
-                    if (i + j == index) //when you get to the index where it starts repeating
-                        builder.append("("); //add the "("
-                    builder.append(digits.charAt(i));
-                }
-                builder.append("), cycle length ");
-                builder.append(numDigits - index);
+                if (i == index) //when you get to the index where it starts repeating
+                    builder.append("("); //add the "("
+                builder.append(digits.charAt(i));
             }
-            else
-            {
-                for (i =0; i < (numDigits - (digits.length() - 1)); i++)
-                    builder.append(0);
-                j = i;
-                for (i = 0; i + j < numDigits; i++)
-                    builder.append(digits.charAt(i));
-            }
+            builder.append("), cycle length ");
+            builder.append(digits.length() - 1 - index);
         }
-        else //else decimal has no leading zeros
+        else //else the decimal doesn't repeat
         {
             //start with "0."
             builder.append("0.");
-
-            if (repeats) //if the decimal repeats
-            {
-                for (i = 0; i < numDigits; i++)
-                {
-                    if (i == index) //when you get to the index where it starts repeating
-                        builder.append("("); //add the "("
-                    builder.append(digits.charAt(i));
-                }
-                builder.append("), cycle length ");
-                builder.append(numDigits - index);
-            }
-            else //else the decimal doesn't repeat
-            {
-                for (i = 0; i < numDigits; i++)
-                    builder.append(digits.charAt(i)); //append all digits
-            }
+            for (i = 0; i < digits.length() - 1; i++)
+                builder.append(digits.charAt(i)); //append all digits
         }
 
         return builder.toString();
@@ -175,6 +140,10 @@ public class ReciprocalCycles
         //digits now contains all the digits of repeating portion of the decimal
         //plus the first repeating digit
 
-        System.out.println("1/" + denominator + " = " + printDecimal((new Integer(digits)).toString(), count, repeats, repeatIndex));
+        //if we didn't count any digits, pass our helper an empty string
+        if (count == 0)
+            System.out.println("1/" + denominator + " = " + printDecimal("", repeats, repeatIndex));
+        else
+            System.out.println("1/" + denominator + " = " + printDecimal((new Integer(digits)).toString(), repeats, repeatIndex));
     }
 }
