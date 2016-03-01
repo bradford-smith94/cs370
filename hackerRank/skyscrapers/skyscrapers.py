@@ -13,6 +13,23 @@ def routesForward(skyscrapers, size):
                 count += 1
     return count
 
+def routesWithStack(skyscrapers, size):
+    count = 0
+    stack = []
+    for i in range(0, size):
+        while len(stack) != 0 and skyscrapers[i] > stack[-1][0]:
+            item = stack.pop()
+            if item[1] > 1:
+                count += item[1] * (item[1] - 1)
+        if len(stack) != 0 and skyscrapers[i] == stack[-1][0]:
+            stack[-1][1] += 1
+        else:
+            stack.append([skyscrapers[i], 1])
+    for i in stack:
+        count += i[1] * (i[1] - 1)
+    return count
+
 numSkyscrapers = int(input())
 skyscrapers = list(map(int, input().split()))
-print(2*routesForward(skyscrapers, numSkyscrapers))
+#print(2*routesForward(skyscrapers, numSkyscrapers))
+print(routesWithStack(skyscrapers, numSkyscrapers))
