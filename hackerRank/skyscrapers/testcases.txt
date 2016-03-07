@@ -18,13 +18,15 @@ Expected: 0
 1 1 1 1 1 1 1 1 1 1
 Expected: 90
 
-4
-3 3 1 1
-Expected: 4
+0
+Expected: Nothing
 
-5
-2 2 1 3 3
-Expected: 4
+3
+2 1
+Expected: Nothing
+
+-1
+Expected: Nothing
 
 5
 1 2 3 4 5
@@ -33,7 +35,3 @@ Expected: 0
 5
 5 4 3 2 1
 Expected: 0
-
-6
-3 2 1 2 3 3
-Expected: 8

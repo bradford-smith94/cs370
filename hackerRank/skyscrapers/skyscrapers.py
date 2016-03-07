@@ -45,8 +45,9 @@ def routesWithStack(skyscrapers, size):
 # Execution starts here
 # read inputs
 numSkyscrapers = int(input())
-skyscrapers = list(map(int, input().split()))
-
-# Print results
-#print(routes(skyscrapers, numSkyscrapers))
-print(routesWithStack(skyscrapers, numSkyscrapers))
+if (numSkyscrapers > 0):
+    skyscrapers = list(map(int, input().split()))
+    if (len(skyscrapers) == numSkyscrapers):
+        # Print results
+        #print(routes(skyscrapers, numSkyscrapers))
+        print(routesWithStack(skyscrapers, numSkyscrapers))
