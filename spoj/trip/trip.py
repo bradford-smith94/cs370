@@ -34,5 +34,12 @@ def lcs(x, y):
 
     return recon(n, m)
 
-print(lcs("abcabcaa", "acbacba"))
+# Execution starts here
+# read inputs
+numTests = int(input())
+while (numTests > 0):
+    a = input()
+    b = input()
+    print(''.join(lcs(a, b)))
+    numTests -= 1
 
