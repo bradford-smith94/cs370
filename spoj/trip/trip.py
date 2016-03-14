@@ -1,6 +1,6 @@
 # Aidan Racaniello, Bradford Smith, and Nicholas Zubrycki
 # CS 370 Assignment 6 SPOJ #33 TRIP
-# 03/13/2016
+# 03/14/2016
 # "We pledge our honor that we have abided by the Stevens Honor System."
 
 def lcs(x, y):
@@ -21,8 +21,9 @@ def lcs(x, y):
                 table[i][j] = max(table[i-1][j], table[i][j-1])
                 if table[i][j] > tMax:
                     tMax = table[i][j]
-    print(tMax)
-    print(table)
+# these are the DEBUG print statements
+#    print(tMax)
+#    print(table)
 
     # Now, table[n][m] is the length of LCS of x and y.
 
@@ -34,18 +35,19 @@ def lcs(x, y):
             return []
         elif x[i-1] == y[j-1]:
             return recon(i-1, j-1) + [x[i-1]]
-        elif table[i-1][j] > table[i][j-1]: #index out of bounds bug here: what if the first elements in the sequences aren't equal
+        elif table[i-1][j] > table[i][j-1]:
             return recon(i-1, j)
         else:
             return recon(i, j-1)
 
-#    while m > 0:
-#        print(''.join(recon(n, m)))
-#        m -= 1
-    for i in range(n):
-        for j in range(m):
-            if (table[i][j] == tMax):
-                print(''.join(recon(i, j)))
+    print(''.join(recon(n, m)))
+
+# this is the attempt at finding multiple LCS'
+#    for i in range(1, n+1):
+#        for j in range(1, m+1):
+#            s = ''.join(recon(n, m))
+#            if len(s) == tMax:
+#                print(s)
 
 
 # Execution starts here

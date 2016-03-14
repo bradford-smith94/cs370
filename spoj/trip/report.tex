@@ -1,0 +1,56 @@
+% Aidan Racaniello, Bradford Smith and Nicholas Zubrycki
+% report.tex
+% 03/14/2016
+% "We pledge our honor that we have abided by the Stevens Honor System."
+% ======================================================================
+
+% global document styles =======================================================
+\documentclass[11pt, letterpaper]{article}
+\usepackage[letterpaper, margin=0.5in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tgbonum}
+\usepackage{textcomp}
+\usepackage{xcolor} %for colored code formatting
+\pagestyle{empty}
+\setlength{\tabcolsep}{0em}
+
+
+% custom macros ================================================================
+% simple inline code formatting (using typewriter font)
+%\newcommand{\code}[1]{\texttt{#1}}
+
+% colored inline code formatting
+\definecolor{codebg}{RGB}{225,225,225}
+\definecolor{codefg}{RGB}{200,40,90}
+\newcommand{\code}[1]{\colorbox{codebg}{\textcolor{codefg}{\texttt{#1}}}}
+
+
+% document begins here =========================================================
+\begin{document}
+\noindent{Aidan Racaniello, Bradford Smith and Nicholas Zubrycki}\\
+\noindent{CS 370 Assingment 6 report.pdf}\\
+\noindent{\today}\\
+\noindent{``I pledge my honor that I have abided by the Stevens Honor System.''}\\
+
+\smallskip
+\noindent{\Large{Error on SPOJ}}
+
+Wrong Answer
+
+\bigskip
+\noindent{\Large{What we tried coding}}
+
+We tried to implement an algrorithm that creates a 2D array that finds the first LCS (Longest Common Sub-sequence) of the two given strings. We then tried to loop over the array to find more LCS'. The attempt at finding multiple LCS' has been left in the code and commented out in favor of a known option that will print one LCS.
+
+\bigskip
+\noindent{\Large{What test cases we ran}}
+
+Locally we tried all the test cases present in \code{testcases.txt}. The only thing wrong with the output is that our program only prints one LCS. \textbf{Note:} \code{testcases.txt} is setup in such a way that it can be piped into the program in order to run many tests at once such as \code{python trip.py < testcases.txt} for this reason it may be a bit hard to read.
+
+\bigskip
+\noindent{\Large{How we debugged}}
+
+In order to debug the program we added print statements to show the values of some variables and the whole table used to lookup LCS' (these statements have been left in the code but commented out). We also traced execution of the program by hand and attempted to find paths through our table that would produce another correct LCS, we could find them by hand but could not make the program find them.
+\end{document}
+
