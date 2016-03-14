@@ -6,7 +6,8 @@
 def lcs(x, y):
     n = len(x)
     m = len(y)
-    table = [[0 for x in range(81)] for x in range(81)]
+    tMax = 0
+    table = [[0 for x in range(m+1)] for x in range(n+1)]
 
     for i in range(n+1):     # i=0,1,...,n
         for j in range(m+1):  # j=0,1,...,m
@@ -14,8 +15,14 @@ def lcs(x, y):
                 table[i][j] = 0
             elif x[i-1] == y[j-1]:
                 table[i][j] = table[i-1][j-1] + 1
+                if table[i][j] > tMax:
+                    tMax = table[i][j]
             else:
                 table[i][j] = max(table[i-1][j], table[i][j-1])
+                if table[i][j] > tMax:
+                    tMax = table[i][j]
+    print(tMax)
+    print(table)
 
     # Now, table[n][m] is the length of LCS of x and y.
 
@@ -32,7 +39,14 @@ def lcs(x, y):
         else:
             return recon(i, j-1)
 
-    return recon(n, m)
+#    while m > 0:
+#        print(''.join(recon(n, m)))
+#        m -= 1
+    for i in range(n):
+        for j in range(m):
+            if (table[i][j] == tMax):
+                print(''.join(recon(i, j)))
+
 
 # Execution starts here
 # read inputs
@@ -40,6 +54,6 @@ numTests = int(input())
 while (numTests > 0):
     a = input()
     b = input()
-    print(''.join(lcs(a, b)))
+    lcs(a, b)
     numTests -= 1
 
