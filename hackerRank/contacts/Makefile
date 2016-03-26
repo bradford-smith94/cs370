@@ -1,11 +1,11 @@
-# Bradford Smith
-# Makefile for
-# 03/14/2016
+# Aidan Racaniello, Bradford Smith and Nicholas Zubrycki
+# Makefile for CS 370 Assignment 7
+# 03/25/2016
+# "We pledge our honor that we have abided by the Stevens Honor System."
 ################################################################################
 
 PRG=contacts
-AUTHOR=
-PROJECT=
+PROJECT=cs370-assignment7
 SRC=contacts.c
 OBJ=$(SRC:.c=.o)
 CC=gcc
@@ -36,6 +36,6 @@ fclean: clean
 
 re: fclean all
 
-tar: fclean
-	tar -cvzf $(AUTHOR)_$(PROJECT).tar.gz ./*
+submit: fclean
+	zip $(PROJECT).zip ./*
 
