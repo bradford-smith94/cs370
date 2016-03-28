@@ -1,6 +1,6 @@
 /* Aidan Racaniello, Bradford Smith and Nicholas Zubrycki
  * CS 370 Assignment 7 HackerRank Contacts contacts.c
- * 03/25/2016
+ * 03/27/2016
  * "We pledge our honor that we have abided by the Stevens Honor System."
  */
 
@@ -14,8 +14,7 @@
 /* structure defining a trie node */
 struct s_node
 {
-    char c; /* this probably isn't necessary */
-    int numChildren;
+    int isEnd; /* this is the end of a contact */
     struct s_node *children[ALPHABET];
 };
 
@@ -25,11 +24,11 @@ typedef struct s_node node;
 /* global trie */
 node *gl_trie;
 
-/* pre: takes in a char 'c'
- * post: creates a new trie node storing the value of 'c'
+/* pre: none
+ * post: creates a new trie node
  * retrun: a node* pointing to the newly allocated trie node
  */
-node* new_node(char c)
+node* new_node()
 {
     int i;
     node *ret;
@@ -37,7 +36,7 @@ node* new_node(char c)
     ret = (node*)malloc(sizeof(node));
     for (i = 0; i < ALPHABET; i++)
         ret->children[i] = NULL;
-    ret->c = c;
+    ret->isEnd = 0;
 
     return ret;
 }
@@ -52,28 +51,74 @@ void trie_add(char* s)
     /* if the global trie is empty */
     if (gl_trie == NULL)
     {
-        gl_trie = new_node('\0');
+        gl_trie = new_node();
         node *temp = gl_trie;
-        for (i = 0; i < strlen(s); i++)
+        for (i = 0; i < strlen(s) - 1; i++) /* '-1' avoids the terminating NULL */
         {
-            temp->children[s[i] - 97] = new_node(s[i]);
+#ifdef DEBUG
+            printf("[DEBUG]\tAdding %c at %d\n",
+                    s[i], (s[i] - 97));
+            fflush(stdout);
+#endif
+            temp->children[s[i] - 97] = new_node();
             temp = temp->children[s[i] - 97];
         }
+        temp->isEnd = 1;
     }
     else /* if adding to an existing global trie */
     {
         node *temp = gl_trie;
-        for (i = 0; i < strlen(s); i++)
+        for (i = 0; i < strlen(s) - 1; i++) /* '-1' avoids the terminating NULL */
         {
             if (temp->children[s[i] - 97] == NULL)
             {
-                temp->children[s[i] - 97] = new_node(s[i]);
+#ifdef DEBUG
+                printf("[DEBUG]\tAdding %c at %d\n",
+                        s[i], (s[i] - 97));
+                fflush(stdout);
+#endif
+                temp->children[s[i] - 97] = new_node();
                 temp = temp->children[s[i] - 97];
             }
             else
                 temp = temp->children[s[i] - 97];
         }
+        temp->isEnd = 1;
     }
+}
+
+/* pre: takes in a node* 'n'
+ * post: counts the unique paths through the children nodes starting at 'n'
+ * return: the number of unique results created with children nodes starting
+ *      from 'n'
+ */
+int trie_count_matches(node* n)
+{
+    int ret;
+    int i;
+
+#ifdef DEBUG
+    printf("[DEBUG]\tcalling count matches\n");
+    fflush(stdout);
+#endif
+
+    /* loop through all children */
+    ret = 0;
+    for (i = 0; i < ALPHABET; i++)
+    {
+        /* if a child is not NULL (a letter is there) */
+        if (n->children[i] != NULL)
+        {
+            /* recurse through that child node */
+            ret += trie_count_matches(n->children[i]);
+        }
+    }
+
+    /* if this node is an end node */
+    if (n->isEnd)
+        ret += 1;
+
+    return ret;
 }
 
 /* pre: takes in a char* 'p'
@@ -92,7 +137,7 @@ int trie_find(char *p)
     if (gl_trie != NULL)
     {
         node *temp = gl_trie;
-        for (i = 0; i < strlen(p); i++)
+        for (i = 0; i < strlen(p) - 1; i++) /* '-1' avoids the terminating NULL */
         {
             if (temp->children[p[i] - 97] != NULL)
             {
@@ -108,7 +153,7 @@ int trie_find(char *p)
          * or is NULL if no match */
         if (temp != NULL)
         {
-            /* TODO: count recursive matches */
+            num = trie_count_matches(temp);
         }
     }
 
@@ -157,7 +202,7 @@ int main(int argc, char **argv)
         if (!strcmp(command, "add"))
             trie_add(string);
         else if (!strcmp(command, "find"))
-            printf("%d", trie_find(string));
+            printf("%d\n", trie_find(string));
     }
 
     return 0;

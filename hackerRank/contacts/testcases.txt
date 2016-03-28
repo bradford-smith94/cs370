@@ -1,0 +1,101 @@
+Testcases
+
+	1
+=========
+4
+add hack
+add hackerrank
+find hac
+find hak
+
+Output:
+2
+0
+
+	2
+=========
+2
+find hi
+add hi
+
+Output:
+0
+
+	3
+=========
+3
+add hi
+find h
+find hi
+
+Output:
+1
+1
+
+	4
+=========
+4
+add brandon
+add brady
+add brad
+find bra
+
+Output:
+3
+
+	5
+=========
+2
+add something
+find ""
+
+Output:
+? notsure
+
+	6
+=========
+2
+add ""
+find something
+
+Output:
+? notsure
+
+	7
+=========
+2 
+add ""
+find ""
+
+Output:
+? notsure
+
+	8
+=========
+1
+find ayyy
+
+Output:
+0
+
+	9
+=========
+1
+add something
+
+Output:
+none
+
+	10
+=========
+7
+add my
+add name
+add is
+add slim
+add shady
+add mothuh
+find fuckuh
+
+Output:
+0
