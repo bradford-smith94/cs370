@@ -1,11 +1,11 @@
 # Aidan Racaniello, Bradford Smith and Nicholas Zubrycki
 # Makefile for CS 370 Assignment 7
-# 03/25/2016
+# 03/28/2016
 # "We pledge our honor that we have abided by the Stevens Honor System."
 ################################################################################
 
 PRG=contacts
-PROJECT=cs370-assignment7
+PROJECT=contacts
 SRC=contacts.c
 OBJ=$(SRC:.c=.o)
 CC=gcc

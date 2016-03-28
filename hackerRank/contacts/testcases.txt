@@ -46,29 +46,43 @@ Output:
 	5
 =========
 2
-add something
-find ""
+add a
+find a
 
 Output:
-? notsure
+1
 
 	6
 =========
 2
-add ""
-find something
+add a
+find aa
 
 Output:
-? notsure
+0
 
 	7
 =========
-2 
-add ""
-find ""
+11 
+add s
+add ss
+add sss
+add ssss
+add sssss
+find s
+find ss
+find sss
+find ssss
+find sssss
+find ssssss
 
 Output:
-? notsure
+5
+4
+3
+2
+1
+0
 
 	8
 =========

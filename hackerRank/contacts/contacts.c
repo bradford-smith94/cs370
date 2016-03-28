@@ -1,6 +1,6 @@
 /* Aidan Racaniello, Bradford Smith and Nicholas Zubrycki
  * CS 370 Assignment 7 HackerRank Contacts contacts.c
- * 03/27/2016
+ * 03/28/2016
  * "We pledge our honor that we have abided by the Stevens Honor System."
  */
 
@@ -55,7 +55,7 @@ void trie_add(char* s)
     {
         gl_trie = new_node();
         node *temp = gl_trie;
-        for (i = 0; i < strlen(s) - 1; i++) /* '-1' avoids the terminating NULL */
+        for (i = 0; i < strlen(s); i++)
         {
 #ifdef DEBUG
             printf("[DEBUG]\tAdding %c at %d\n",
@@ -63,15 +63,15 @@ void trie_add(char* s)
             fflush(stdout);
 #endif
             temp->children[s[i] - 97] = new_node();
-            temp->count++;
             temp = temp->children[s[i] - 97];
+            temp->count++;
         }
         temp->isEnd = 1;
     }
     else /* if adding to an existing global trie */
     {
         node *temp = gl_trie;
-        for (i = 0; i < strlen(s) - 1; i++) /* '-1' avoids the terminating NULL */
+        for (i = 0; i < strlen(s); i++)
         {
             if (temp->children[s[i] - 97] == NULL)
             {
@@ -81,13 +81,13 @@ void trie_add(char* s)
                 fflush(stdout);
 #endif
                 temp->children[s[i] - 97] = new_node();
-                temp->count++;
                 temp = temp->children[s[i] - 97];
+                temp->count++;
             }
             else
             {
-                temp->count++;
                 temp = temp->children[s[i] - 97];
+                temp->count++;
             }
         }
         temp->isEnd = 1;
@@ -103,11 +103,16 @@ int trie_find(char *p)
 {
     int i;
 
+#ifdef DEBUG
+    printf("[DEBUG]\tFind \"%s\"\n", p);
+    fflush(stdout);
+#endif
+
     /* skip if the global trie is empty */
     if (gl_trie != NULL)
     {
         node *temp = gl_trie;
-        for (i = 0; i < strlen(p) - 1; i++) /* '-1' avoids the terminating NULL */
+        for (i = 0; i < strlen(p); i++)
         {
             if (temp->children[p[i] - 97] != NULL)
             {
@@ -137,11 +142,8 @@ int trie_find(char *p)
 int main(int argc, char **argv)
 {
     int numStatements;
-    char *line;
-    unsigned long len;
-    int n;
-    char *command;
-    char *string;
+    char command[5];
+    char string[22];
 
     /* read in number of operations to perform */
     scanf("%d\n", &numStatements);
@@ -151,17 +153,11 @@ int main(int argc, char **argv)
 
     /* loop while there are still statements to read */
     gl_trie = NULL;
-    line = NULL;
     while (numStatements--)
     {
-        /* get the line */
-        n = getline(&line, &len, stdin);
-        if (n == -1)
-            break;
-
-        /* break it into command and string */
-        command = strtok(line, " ");
-        string = strtok(NULL, " ");
+        /* read inputs */
+        scanf("%s", command);
+        scanf(" %s", string);
 
 #ifdef DEBUG
         printf("[DEBUG]\tCommand: %s\n", command);
