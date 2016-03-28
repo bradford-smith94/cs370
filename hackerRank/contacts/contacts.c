@@ -15,6 +15,7 @@
 struct s_node
 {
     int isEnd; /* this is the end of a contact */
+    int count;
     struct s_node *children[ALPHABET];
 };
 
@@ -37,6 +38,7 @@ node* new_node()
     for (i = 0; i < ALPHABET; i++)
         ret->children[i] = NULL;
     ret->isEnd = 0;
+    ret->count = 0;
 
     return ret;
 }
@@ -61,6 +63,7 @@ void trie_add(char* s)
             fflush(stdout);
 #endif
             temp->children[s[i] - 97] = new_node();
+            temp->count++;
             temp = temp->children[s[i] - 97];
         }
         temp->isEnd = 1;
@@ -78,47 +81,17 @@ void trie_add(char* s)
                 fflush(stdout);
 #endif
                 temp->children[s[i] - 97] = new_node();
+                temp->count++;
                 temp = temp->children[s[i] - 97];
             }
             else
+            {
+                temp->count++;
                 temp = temp->children[s[i] - 97];
+            }
         }
         temp->isEnd = 1;
     }
-}
-
-/* pre: takes in a node* 'n'
- * post: counts the unique paths through the children nodes starting at 'n'
- * return: the number of unique results created with children nodes starting
- *      from 'n'
- */
-int trie_count_matches(node* n)
-{
-    int ret;
-    int i;
-
-#ifdef DEBUG
-    printf("[DEBUG]\tcalling count matches\n");
-    fflush(stdout);
-#endif
-
-    /* loop through all children */
-    ret = 0;
-    for (i = 0; i < ALPHABET; i++)
-    {
-        /* if a child is not NULL (a letter is there) */
-        if (n->children[i] != NULL)
-        {
-            /* recurse through that child node */
-            ret += trie_count_matches(n->children[i]);
-        }
-    }
-
-    /* if this node is an end node */
-    if (n->isEnd)
-        ret += 1;
-
-    return ret;
 }
 
 /* pre: takes in a char* 'p'
@@ -129,9 +102,6 @@ int trie_count_matches(node* n)
 int trie_find(char *p)
 {
     int i;
-    int num;
-
-    num = 0;
 
     /* skip if the global trie is empty */
     if (gl_trie != NULL)
@@ -153,11 +123,11 @@ int trie_find(char *p)
          * or is NULL if no match */
         if (temp != NULL)
         {
-            num = trie_count_matches(temp);
+            return temp->count;
         }
     }
 
-    return num;
+    return 0;
 }
 
 /* pre: takes in int 'argc' anc char** 'argv' command line arguments
@@ -194,8 +164,8 @@ int main(int argc, char **argv)
         string = strtok(NULL, " ");
 
 #ifdef DEBUG
-        printf("Command: %s\n", command);
-        printf("String: %s\n", string);
+        printf("[DEBUG]\tCommand: %s\n", command);
+        printf("[DEBUG]\tString: %s\n", string);
 #endif
 
         /* call the appropriate handler function based on the value of command */
