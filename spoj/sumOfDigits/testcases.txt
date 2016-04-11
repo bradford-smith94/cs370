@@ -1,0 +1,39 @@
+This is what a lot of the algorithm is based upon
+1 9
+Expected: 45
+
+Showing that its the sum of 'digit' not the sum
+1 10
+Expected: 46
+
+SPOJ example
+100 777
+Expected: 8655
+
+Normal input
+50 100
+Expected: 576
+
+Normal input
+150 200
+Expected: 627
+
+Quit
+-1 -1
+Expected: [NONE] - Exits program
+
+Boundary
+0 0
+Expected: 0
+
+Boundary
+1 1000000000
+Expected: 40500000001
+
+Input error
+1 ""
+Expected: [NONE] - Continues program, gets input again
+
+Input error
+"" 1
+Expected: [NONE] - Continues program, gets input again
