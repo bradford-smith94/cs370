@@ -6,3 +6,7 @@
 *.tar.gz
 
 *__pycache__
+
+*.pdf
+*.ppt
+*.pptx
