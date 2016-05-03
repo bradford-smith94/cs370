@@ -1,0 +1,146 @@
+% Mike Curry, Kareem Mohamed and Bradford Smith
+% CS 370 Group Project 2 SPOJ LCMSUM slides.tex
+% 05/02/2016
+% "We pledge our honor that we have abided by the Stevens Honor System."
+
+\documentclass{beamer}
+\mode<presentation>
+{
+  \usetheme{default}
+  \usecolortheme{default}
+  \usefonttheme{default}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{footline}[frame number]
+}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{listings}
+
+\title[LCMSUM]{LCM Sum (LCMSUM)}
+\subtitle{http://www.spoj.com/problems/LCMSUM}
+\author{Mike Curry \& Kareem Mohamed \& Bradford Smith}
+\institute{CS 370}
+\date{May 2, 2016}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\section{Problem Statement}
+
+\begin{frame}{Problem Statement}
+  \begin{itemize}
+  \item Given some n, calculate the sum:
+    \begin{equation*}
+      \boxed{LCM(1, n) + LCM(2, n) + \cdots + LCM(n, n)}
+    \end{equation*} \vspace{10mm}
+  \item For example, given $n = 3$:
+    \begin{align*}
+      LCM(1, 3) + LCM(2, 3) + LCM(3, 3) &= \\
+      &= 3 + 6 + 3 \\
+        &= 12
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\section{Approaching a Solution}
+
+\subsection{Failed Attempts}
+
+\begin{frame}{Computing LCM using GCD}
+  \begin{itemize}
+  \item The LCM can be represented in terms of the GCD
+    \begin{equation*}
+      \boxed{LCM(a, b) = \frac{|a * b|}{GCD(a, b)}}
+    \end{equation*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{First GCD Attempt}
+  \begin{itemize}
+  \item GCD can be computed as
+    \begin{equation*}
+      \boxed{GCD(a, b) = (a+b) - (a*b) + 2*\sum_{k = 1}^{a - 1}{\left\lfloor\frac{k*b}{a}\right\rfloor}}
+    \end{equation*}
+    \begin{lstlisting}[language=C, basicstyle=\footnotesize\ttfamily]
+unsigned long gcd(int c, int d)
+{
+      int k;
+      unsigned long sum = 0;
+      for (k = 1; k <= (c-1); ++k)
+      {
+          sum += (k*d)/c;
+      }
+      return (unsigned long) (c+d)-(c*d)+(2*sum);
+}
+    \end{lstlisting}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Second GCD Attempt}
+  \begin{itemize}
+  \item Using Euclid's Algorithm
+    \begin{lstlisting}[language=C, basicstyle=\footnotesize\ttfamily]
+unsigned long gcd(unsigned long c, unsigned long d)
+{
+    unsigned long r;
+
+    if((c == 0) || (d == 0))
+        return 0;
+    while(1)
+    {
+        r = c % d;
+        if(r == 0)
+            break;
+        c = d;
+        d = r;
+    }
+    return d;
+}
+    \end{lstlisting}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Third GCD Attempt}
+  \begin{itemize}
+  \item Using Euler Totient Function
+    \begin{equation*}
+      \boxed{GCD(a, b) = \sum_{k|a \wedge k|b}{\varphi(k)}}
+    \end{equation*}
+    \begin{lstlisting}[language=C, basicstyle=\footnotesize\ttfamily]
+unsigned long gcd_phi(unsigned long c, unsigned long d)
+{
+    unsigned long ans = 0;
+    for (unsigned long k = 1; k * k <= d; ++k)
+    {
+        if (c % k == 0 && d % k == 0)
+        {
+            ans += phi[k];
+        }
+    }
+    return ans;
+}
+    \end{lstlisting}
+  \end{itemize}
+\end{frame}
+
+\subsection{Conclusions}
+
+\begin{frame}{Our Findings}
+  \begin{itemize}
+  \item Computing each LCM was too slow \vskip 10mm
+  \item Mathematica/SymPy were unable simplify both formulas. \vskip 10mm
+  \item We found a lot of papers written on a GCD-Sum function but they were
+    too dense to understand in our timespan.
+  \end{itemize}
+\end{frame}
+
+\end{document}
